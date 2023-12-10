@@ -4,20 +4,20 @@ name: STAC Browser
 on: workflow_dispatch
 
 env:
-  CATALOG_URL: "https://raw.githubusercontent.com/${{ github.repository }}/main/catalog.json"
-  TILE_SOURCE_TEMPLATE: "https://api.cogeo.xyz/cog/tiles/{z}/{x}/{y}?url={ASSET_HREF}&expression=sqrt(b1)&rescale=0,1"
-  PATH_PREFIX: "/${{ github.event.repository.name }}/"
+  SB_catalogUrl: "https://raw.githubusercontent.com/${{ github.repository }}/main/catalog.json"
+  # TILE_SOURCE_TEMPLATE: "https://api.cogeo.xyz/cog/tiles/{z}/{x}/{y}?url={ASSET_HREF}&expression=sqrt(b1)&rescale=0,1"
+  SB_pathPrefix: "/${{ github.event.repository.name }}/"
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
 
     - name: Checkout STAC Browser Source
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         repository: radiantearth/stac-browser
-        ref: v2.0.0
+        ref: v3.1.0
 
     - name: Install STAC Browser
       run: |
@@ -25,10 +25,9 @@ jobs:
 
     - name: Build Website
       run: |
-        npm run build -- --CATALOG_URL="${{ env.CATALOG_URL }}" \
-        --TILE_SOURCE_TEMPLATE="${{ env.TILE_SOURCE_TEMPLATE }}" \
-        --PATH_PREFIX="${{ env.PATH_PREFIX }}" \
-        --HISTORY_MODE=hash
+        npm run build -- --SB_catalogUrl="${{ env.CATALOG_URL }}" \
+        --SB_pathPrefix="${{ env.PATH_PREFIX }}" \
+        --SB_historyMode=hash
 
     - name: Publish to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
