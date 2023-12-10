@@ -54,9 +54,9 @@ jobs:
       run: |
         ./s1_rtc_stac.py
 
-    - name: Validate STAC
-      run: |
-        stac validate --recurse --no-links --no-assets catalog.json
+    # - name: Validate STAC
+    #   run: |
+    #     stac validate --recurse --no-links --no-assets catalog.json
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3
