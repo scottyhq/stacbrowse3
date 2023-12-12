@@ -1,6 +1,9 @@
 
 name: STAC Updater
 
+permissions:
+   contents: write
+   
 on:
   # Run once per day at midnight
   schedule:
@@ -15,20 +18,20 @@ env:
 jobs:
   build-and-test:
     if: github.repository != 'relativeorbit/aws-rtc-stac'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash -l {0}
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Get current date
       id: date
       run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
     - name: Cache conda
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       env:
         # Increase this value to reset cache if environment.yml has not changed
         CACHE_NUMBER: 0
@@ -54,12 +57,12 @@ jobs:
       run: |
         ./s1_rtc_stac.py
 
-    # - name: Validate STAC
-    #   run: |
-    #     stac validate --recurse --no-links --no-assets catalog.json
+    - name: Validate STAC
+      run: |
+        stac validate --recursive --no-links --no-assets catalog.json
 
     - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v3
+      uses: peter-evans/create-pull-request@v5
       with:
         commit-message: "update catalog through ${{ steps.date.outputs.date }}"
         title: "Update STAC (${{ steps.date.outputs.date }})"
