@@ -9,7 +9,7 @@ env:
   SB_pathPrefix: "/${{ github.event.repository.name }}/"
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
 
@@ -25,13 +25,30 @@ jobs:
 
     - name: Build Website
       run: |
-        npm run build -- --SB_catalogUrl="${{ env.CATALOG_URL }}" \
-        --SB_pathPrefix="${{ env.PATH_PREFIX }}" \
+        npm run build -- --SB_catalogUrl="${{ env.SB_catalogUrl }}" \
+        --SB_pathPrefix="${{ env.pathPrefix }}" \
         --SB_historyMode=hash
 
-    - name: Publish to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v2
       with:
-        personal_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist
-        publish_branch: gh-pages
+        # Upload just 'dist/' folder
+        path: 'dist'
+        
+  # https://github.com/actions/deploy-pages
+  deploy:
+    needs: build
+
+    permissions:
+      pages: write
+      id-token: write 
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v3 
