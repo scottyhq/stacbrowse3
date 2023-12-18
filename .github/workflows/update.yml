@@ -3,6 +3,7 @@ name: STAC Updater
 
 permissions:
    contents: write
+   pull-requests: write
    
 on:
   # Run once per day at midnight
