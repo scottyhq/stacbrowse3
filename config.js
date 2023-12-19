@@ -22,7 +22,7 @@ module.exports = {
     apiCatalogPriority: null,
     useTileLayerAsFallback: false,
     displayGeoTiffByDefault: false,
-    buildTileUrlTemplate: ({href, asset}) => {
+    buildTileUrlTemplate: async ({href, asset}) => {
         let assetKey = asset.getKey();
         if (assetKey.startsWith("gamma0")) {
           return "https://titiler.xyz/cog/tiles/{z}/{x}/{y}@2x?url={url}&expression=sqrt(b1)&rescale=0,1";
