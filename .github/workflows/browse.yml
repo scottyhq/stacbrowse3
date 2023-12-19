@@ -3,11 +3,12 @@ name: STAC Browser
 
 on: workflow_dispatch
 
+# These are picked up by 'npm run build'
 env:
   SB_catalogUrl: "https://raw.githubusercontent.com/${{ github.repository }}/main/catalog.json"
-  # TILE_SOURCE_TEMPLATE: "https://api.cogeo.xyz/cog/tiles/{z}/{x}/{y}?url={ASSET_HREF}&expression=sqrt(b1)&rescale=0,1"
   SB_pathPrefix: "/${{ github.event.repository.name }}/"
-
+  SB_historyMode: "hash"
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,15 +20,21 @@ jobs:
         repository: radiantearth/stac-browser
         ref: v3.1.0
 
+    # Overwrite config with file from this repository
+    - name: Configure STAC Browser
+      uses: actions/checkout@v4
+      with:
+        sparse-checkout: |
+          config.js
+        sparse-checkout-cone-mode: false
+
     - name: Install STAC Browser
       run: |
         npm install .
 
     - name: Build Website
       run: |
-        npm run build -- --SB_catalogUrl="${{ env.SB_catalogUrl }}" \
-        --SB_pathPrefix="${{ env.pathPrefix }}" \
-        --SB_historyMode=hash
+        npm run build --
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v2
