@@ -22,7 +22,17 @@ module.exports = {
     apiCatalogPriority: null,
     useTileLayerAsFallback: false,
     displayGeoTiffByDefault: false,
-    buildTileUrlTemplate: ({href, asset}) => "https://titiler.xyz/cog/tiles/{z}/{x}/{y}@2x?url=" + encodeURIComponent(asset.href.startsWith("/vsi") ? asset.href : href) + "&expression=sqrt(b1)&rescale=0,1",
+    buildTileUrlTemplate: ({href, asset, key}) => {
+        if (key.startsWith("gamma0")) {
+          return "https://tiles.rdnt.io/tiles/{z}/{x}/{y}@2x?url={url}&expression=sqrt(b1)&rescale=0,1";
+        } 
+        else if (key == "incidence") {
+          return "https://tiles.rdnt.io/tiles/{z}/{x}/{y}@2x?url={url}&expression=b1*0.01&rescale=0,90&cmap=viridis";
+        }
+        else {
+          return "https://tiles.rdnt.io/tiles/{z}/{x}/{y}@2x?url={url}";
+        }
+      },
     stacProxyUrl: null,
     pathPrefix: "/",
     historyMode: "history",
