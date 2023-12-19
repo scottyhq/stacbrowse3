@@ -24,13 +24,13 @@ module.exports = {
     displayGeoTiffByDefault: false,
     buildTileUrlTemplate: ({href, asset, key}) => {
         if (key.startsWith("gamma0")) {
-          return "https://tiles.rdnt.io/tiles/{z}/{x}/{y}@2x?url={url}&expression=sqrt(b1)&rescale=0,1";
+          return "https://titiler.xyz/cog/tiles/{z}/{x}/{y}@2x?url={url}&expression=sqrt(b1)&rescale=0,1";
         } 
 //        else if (key == "incidence") {
-//          return "https://tiles.rdnt.io/tiles/{z}/{x}/{y}@2x?url={url}&expression=b1*0.01&rescale=0,90&cmap=viridis";
+//          return "https://titiler.xyz/cog/tiles/{z}/{x}/{y}@2x?url={url}&expression=b1*0.01&rescale=0,90&cmap=viridis";
 //        }
         else {
-          return "https://tiles.rdnt.io/tiles/{z}/{x}/{y}@2x?url={url}&expression=b1*0.01&colormap_name=viridis&rescale=0,90";
+          return "https://titiler.xyz/cog/tiles/{z}/{x}/{y}@2x?url={url}&expression=b1*0.01&colormap_name=viridis&rescale=0,90";
         }
       },
     stacProxyUrl: null,
