@@ -26,11 +26,11 @@ module.exports = {
         if (key.startsWith("gamma0")) {
           return "https://tiles.rdnt.io/tiles/{z}/{x}/{y}@2x?url={url}&expression=sqrt(b1)&rescale=0,1";
         } 
-        else if (key == "incidence") {
-          return "https://tiles.rdnt.io/tiles/{z}/{x}/{y}@2x?url={url}&expression=b1*0.01&rescale=0,90&cmap=viridis";
-        }
+//        else if (key == "incidence") {
+//          return "https://tiles.rdnt.io/tiles/{z}/{x}/{y}@2x?url={url}&expression=b1*0.01&rescale=0,90&cmap=viridis";
+//        }
         else {
-          return "https://tiles.rdnt.io/tiles/{z}/{x}/{y}@2x?url={url}";
+          return "https://tiles.rdnt.io/tiles/{z}/{x}/{y}@2x?url={url}&expression=b1*0.01&rescale=0,90&cmap=viridis";
         }
       },
     stacProxyUrl: null,
