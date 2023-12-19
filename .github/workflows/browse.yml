@@ -23,7 +23,7 @@ jobs:
 
     # Overwrite config with file from this repository
     - name: Configure STAC Browser
-      run: wget ${{env.configUrl}}
+      run: curl -O ${{env.configUrl}}
 
     - name: Install STAC Browser
       run: |
