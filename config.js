@@ -23,7 +23,8 @@ module.exports = {
     useTileLayerAsFallback: false,
     displayGeoTiffByDefault: false,
     buildTileUrlTemplate: ({href, asset, key}) => {
-        if (asset.title.startsWith("Gamma0")) {
+        console.log(asset)
+        if (asset.href.includes("Gamma0")) {
           return "https://titiler.xyz/cog/tiles/{z}/{x}/{y}@2x?url={url}&expression=sqrt(b1)&rescale=0,1";
         } 
 //        else if (asset.key == "incidence") {
