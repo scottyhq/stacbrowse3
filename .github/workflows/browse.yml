@@ -3,8 +3,9 @@ name: STAC Browser
 
 on: workflow_dispatch
 
-# These are picked up by 'npm run build'
+# SB_ENVVARS are picked up by 'npm run build'
 env:
+  configUrl: "https://raw.githubusercontent.com/${{ github.repository }}/main/config.js"
   SB_catalogUrl: "https://raw.githubusercontent.com/${{ github.repository }}/main/catalog.json"
   SB_pathPrefix: "/${{ github.event.repository.name }}/"
   SB_historyMode: "hash"
@@ -22,11 +23,7 @@ jobs:
 
     # Overwrite config with file from this repository
     - name: Configure STAC Browser
-      uses: actions/checkout@v4
-      with:
-        sparse-checkout: |
-          config.js
-        sparse-checkout-cone-mode: false
+      run: wget ${{env.configUrl}}
 
     - name: Install STAC Browser
       run: |
