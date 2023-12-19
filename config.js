@@ -22,7 +22,7 @@ module.exports = {
     apiCatalogPriority: null,
     useTileLayerAsFallback: false,
     displayGeoTiffByDefault: false,
-    buildTileUrlTemplate: ({href, asset}) => "https://titiler.xyz/cog/tiles/{z}/{x}/{y}@2x?url=" + encodeURIComponent(asset.href.startsWith("/vsi") ? asset.href : href),
+    buildTileUrlTemplate: ({href, asset}) => "https://titiler.xyz/cog/tiles/{z}/{x}/{y}@2x?url=" + encodeURIComponent(asset.href.startsWith("/vsi") ? asset.href : href) + "&expression=sqrt(b1)&rescale=0,1",
     stacProxyUrl: null,
     pathPrefix: "/",
     historyMode: "history",
